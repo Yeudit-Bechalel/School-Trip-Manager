@@ -2,9 +2,11 @@ require('dotenv').config(); // שורת הקסם שקוראת את הסודות 
 const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/User'); // מייבאים את תבנית המשתמש שבנינו
+const cors = require('cors'); // 1. מייבאים את שומר הסף
 
 const app = express();
 const port = 5000;
+app.use(cors()); // 2. מאפשר לאתר שלנו (5173) לדבר עם השרת (5000)
 app.use(express.json()); // מתורגמן שמאפשר לשרת לקרוא נתונים שנשלחים אליו
 
 // הגדרת חיבור למסד הנתונים בענן
@@ -33,6 +35,24 @@ app.post('/register', async (req, res) => {
     } catch (error) {
         // אם משהו השתבש (למשל חסר שם או הת.ז לא 9 ספרות), נחזיר את השגיאה
         res.status(400).send(error.message);
+    }
+});
+
+// נתיב לקבלת רשימת כל הסטודנטים מהמסד
+app.get('/students', async (req, res) => {
+    try {
+        // שולפים את כל המסמכים מקולקשן המשתמשים
+        const students = await User.find({});
+        
+        // מחזירים את הרשימה ללקוח עם סטטוס 200 (הצלחנו)
+        res.status(200).json(students);
+    } catch (error) {
+        // אם קרתה תקלה (למשל בעיית תקשורת עם Atlas)
+        console.error("Error fetching students:", error);
+        res.status(500).json({ 
+            message: "שגיאה בשליפת הנתונים", 
+            error: error.message 
+        });
     }
 });
 // הפעלת השרת
