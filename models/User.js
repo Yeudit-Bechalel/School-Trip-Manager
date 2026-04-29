@@ -13,10 +13,19 @@ const userSchema = new mongoose.Schema({
         unique: true,
         match: [/^\d{9}$/, 'תעודת הזהות חייבת להכיל בדיוק 9 ספרות!'] 
     },
-    className: { 
-        type: String, 
-        required: true,
-       match: [/^(א|ב|ג|ד|ה|ו|ז|ח|ט|י|יא|יב|י"א|י"ב)\s*([1-9]|1[0-9]|20)$/, 'הכיתה חייבת להיות שכבה (א-יב) ומספר (1-20), עם או בלי רווח ביניהם. למשל: יא2 או יא 2']
+    className: {
+     type: String,
+     required: true,
+     validate: {
+      validator: function(value) {
+        // פטור למורות ולצוות: אם הריאקט שלח את המילה "צוות", הכל תקין ונאשר את השמירה
+        if (value === 'צוות') return true;
+        
+        // אם זו תלמידה, נבדוק את הכיתה לפי הכללים הרגילים
+        return /^[א-ת]{1,2}\s?[0-9]{1,2}$/.test(value);
+      },
+      message: 'הכיתה חייבת להיות שכבה (א-יב) ומספר (1-20), עם או בלי רווח ביניהם. למשל: יא2 או יא 2'
+     }
     },
     role: {
         type: String,

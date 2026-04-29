@@ -1,15 +1,17 @@
-import './App.css';
-import RegisterForm from './components/RegisterForm'; // 1. אנחנו מייבאים את הטופס
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './components/Home'; 
+import StudentList from './components/StudentList';
 
 function App() {
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
-      <h1>טיול שנתי - בנות משה </h1>
-      
-      {/* 2. אנחנו מציגים את הטופס על המסך! */}
-      <RegisterForm /> 
-      
-    </div>
+    <BrowserRouter>
+      <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', direction: 'rtl' }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<StudentList />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

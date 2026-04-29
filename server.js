@@ -33,28 +33,62 @@ app.post('/register', async (req, res) => {
         res.status(201).send('המשתמשת נשמרה בהצלחה במסד הנתונים! 🎉');
         
     } catch (error) {
-        // אם משהו השתבש (למשל חסר שם או הת.ז לא 9 ספרות), נחזיר את השגיאה
+        // --- התוספת שלנו למניעת כפילויות ---
+        // שגיאה 11000 במונגו אומרת "כפילות נתונים - ייחודיות הופרה"
+        if (error.code === 11000) {
+            return res.status(400).send('תעודת הזהות הזו כבר רשומה במערכת! 🛑');
+        }
+        
+        // השורה שהייתה חסרה: אם משהו אחר השתבש (למשל חסר שם), נחזיר את השגיאה
         res.status(400).send(error.message);
     }
 });
 
-// נתיב לקבלת רשימת כל הסטודנטים מהמסד
-app.get('/students', async (req, res) => {
+// נתיב התחברות (Login) - שומר הסף שבודק אם זו מורה
+app.post('/login', async (req, res) => {
     try {
-        // שולפים את כל המסמכים מקולקשן המשתמשים
-        const students = await User.find({});
-        
-        // מחזירים את הרשימה ללקוח עם סטטוס 200 (הצלחנו)
-        res.status(200).json(students);
+        // 1. השרת מקבל את תעודת הזהות שהלקוח (ריאקט) שלח לו
+        const { idNumber } = req.body; 
+
+        // 2. השרת מחפש במונגו משתמשת עם תעודת הזהות הזו
+        const user = await User.findOne({ idNumber: idNumber });
+
+        // 3. אם הוא לא מצא אף אחת כזו:
+        if (!user) {
+            return res.status(404).json({ message: "תעודת הזהות לא קיימת במערכת." });
+        }
+
+        // 4. אם הוא מצא, אבל התפקיד שלה הוא לא 'מורה':
+        if (user.role !== 'teacher') {
+            return res.status(403).json({ message: "גישה חסומה. הצפייה מותרת למורות ומלוות בלבד!" });
+        }
+
+        // 5. אם הכל בסדר והיא מורה, ניתן לה אישור כניסה:
+        res.status(200).json({ message: "התחברות מוצלחת!", user: user });
+
     } catch (error) {
-        // אם קרתה תקלה (למשל בעיית תקשורת עם Atlas)
-        console.error("Error fetching students:", error);
-        res.status(500).json({ 
-            message: "שגיאה בשליפת הנתונים", 
-            error: error.message 
-        });
+        console.error("Login error:", error);
+        res.status(500).json({ message: "שגיאה בשרת, אנא נסי שוב." });
     }
 });
+
+// נתיב חכם לשליפת משתמשים לפי תנאים (פילטור) - עונה על דרישת השליפות השונות!
+app.get('/users', async (req, res) => {
+    try {
+        // req.query לוקח את כל מה שכתוב אחרי סימן השאלה בכתובת האינטרנט
+        // למשל: ?className=יב1&role=student
+        const filter = req.query; 
+        
+        // מונגו יחפש עכשיו רק את מי שמתאים לפילטר! אם הפילטר ריק - הוא יביא את כולם.
+        const users = await User.find(filter); 
+        
+        res.status(200).json(users);
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ message: "שגיאה בשליפת הנתונים", error: error.message });
+    }
+});
+
 // הפעלת השרת
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
