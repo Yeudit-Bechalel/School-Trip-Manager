@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import StudentList from './components/StudentList';
-import TeacherDashboard from './components/TeacherDashboard'; // הייבוא החדש
-import MapPage from './components/MapPage';                 // הייבוא החדש
+import TeacherDashboard from './components/TeacherDashboard'; 
+import MapPage from './components/MapPage';                 
 
 function App() {
   return (
@@ -10,11 +10,9 @@ function App() {
       <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', direction: 'rtl' }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          
-          {/* הנתיב החדש ללוח הבקרה */}
+          {}
           <Route path="/dashboard" element={<TeacherDashboard />} /> 
-          
-          {/* נתיבי הפעולות (אליהם מגיעים מלוח הבקרה) */}
+          {}
           <Route path="/search" element={<StudentList />} />
           <Route path="/map" element={<MapPage />} />
         </Routes>

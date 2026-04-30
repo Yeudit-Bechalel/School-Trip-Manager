@@ -3,15 +3,13 @@ import { useNavigate } from 'react-router-dom';
 
 function RegisterForm() {
   const navigate = useNavigate();
-  
-  // === 1. הזיכרון של הטופס ===
   const [fullName, setFullName] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [className, setClassName] = useState("");
   const [role, setRole] = useState("student");
   const [passwordInput, setPasswordInput] = useState(""); 
 
-  const SECRET_TEACHER_PASSWORD = "123";
+  const SECRET_TEACHER_PASSWORD = "Staff@2026";
 
   const handleRoleChange = (e) => {
     const selectedRole = e.target.value;
@@ -24,7 +22,6 @@ function RegisterForm() {
     }
   };
 
-  // === 2. מה קורה כשלוחצים על שליחה ===
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -32,14 +29,14 @@ function RegisterForm() {
 
     if (role === 'teacher') {
       if (passwordInput !== SECRET_TEACHER_PASSWORD) {
-        alert("❌ סיסמה שגויה! אין אפשרות להירשם כצוות. נסי שוב או הירשמי כתלמידה.");
+        alert(" סיסמה שגויה! אין אפשרות להירשם כצוות. נסי שוב או הירשמי כתלמידה.");
         return; 
       }
       finalClassName = "צוות";
     } else {
       const classRegex = /^[א-ת]{1,2}[0-9]{1,2}$/;
       if (!classRegex.test(className)) {
-        alert("❌ שגיאה: תלמידה חייבת לכתוב את הכיתה והמספר ברצף ללא רווחים! (למשל: יא2, ט3)");
+        alert(" שגיאה: תלמידה חייבת לכתוב את הכיתה והמספר ברצף ללא רווחים! (למשל: יא2, ט3)");
         return; 
       }
     }
@@ -60,18 +57,18 @@ function RegisterForm() {
 
       if (response.ok) {
         if (role === 'teacher') {
-          alert('הרישום בוצע בהצלחה! מועברת למערכת הניהול... 🚀');
+          localStorage.setItem('idNumber', idNumber);
+          
+          alert('הרישום בוצע בהצלחה! מועברת למערכת הניהול...');
           navigate('/dashboard'); 
         } else {
-          alert('הרישום בוצע בהצלחה! 🎉');
-          setFullName("");
+          alert('הרישום בוצע בהצלחה! ');
           setIdNumber("");
           setClassName("");
           setRole("student");
           setPasswordInput("");
         }
       } else {
-        // מקפיץ את השגיאה של השרת (למשל: ת.ז כבר רשומה)
         const errorMessage = await response.text(); 
         alert("שגיאה: " + errorMessage);
       }
@@ -81,7 +78,6 @@ function RegisterForm() {
     }
   };
 
-  // === 3. התצוגה ===
   return (
     <form onSubmit={handleSubmit} style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', maxWidth: '400px' }}>
       <h2>רישום לטיול השנתי</h2>
@@ -145,6 +141,5 @@ function RegisterForm() {
       </button>
     </form>
   );
-} // <--- הנה ה-`}` שהיה חסר לך!
-
+} 
 export default RegisterForm;

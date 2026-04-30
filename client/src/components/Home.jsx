@@ -5,27 +5,24 @@ import RegisterForm from './RegisterForm';
 function Home() {
   const [idInput, setIdInput] = useState('');
   const [loginError, setLoginError] = useState('');
-  
-  // זה ה"הגה" שלנו שמאפשר לנו להעביר את המשתמשת דף
   const navigate = useNavigate();
-
   const handleLogin = async () => {
     try {
       setLoginError('');
-      const response = await fetch('http://127.0.0.1:5000/login', {
+      const response = await fetch('http://127.0.0.1:5000/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ idNumber: idInput })
       });
 
       if (response.ok) {
-        // ת.ז נמצאה והיא של מורה - טיסה ישירה לדף החיפוש!
+        localStorage.setItem('idNumber', idInput);
         navigate('/dashboard');
       } else if (response.status === 404) {
-        // השרת לא מצא את התעודה (404)
+        
         setLoginError('תעודת הזהות לא מוכרת, נדרשת הרשמה.');
       } else if (response.status === 403) {
-        // השרת מצא, אבל התפקיד הוא סטודנט (403)
+        
         setLoginError('הכניסה היא רק למורות ולצוות.');
       }
     } catch (error) {
@@ -36,14 +33,14 @@ function Home() {
   return (
     <div style={{ display: 'flex', gap: '50px', justifyContent: 'center', marginTop: '30px', flexWrap: 'wrap' }}>
       
-      {/* צד ימין - רכיב ההרשמה שלנו */}
+      {}
       <div>
         <RegisterForm />
       </div>
 
-      {/* צד שמאל - אזור הכניסה למורות */}
+      {}
       <div style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px', maxWidth: '300px', height: 'fit-content', background: '#f9f9f9' }}>
-        <h3>🔒 כניסת צוות רשום</h3>
+        <h3> כניסת צוות רשום</h3>
         <p>מורה שכבר נרשמה, היכנסי כאן:</p>
         <input 
           type="text" 
