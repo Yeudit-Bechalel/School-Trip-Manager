@@ -20,7 +20,7 @@ function Home() {
 
       if (response.ok) {
         // ת.ז נמצאה והיא של מורה - טיסה ישירה לדף החיפוש!
-        navigate('/search');
+        navigate('/dashboard');
       } else if (response.status === 404) {
         // השרת לא מצא את התעודה (404)
         setLoginError('תעודת הזהות לא מוכרת, נדרשת הרשמה.');

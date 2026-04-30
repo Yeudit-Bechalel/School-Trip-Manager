@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 function StudentList() {
   const [students, setStudents] = useState([]);
   const [searchClass, setSearchClass] = useState('');
@@ -29,10 +30,11 @@ function StudentList() {
   return (
     <div style={{ marginTop: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', maxWidth: '600px', margin: '0 auto' }}>
       
-      {/* כפתור חזרה לדף הבית למעלה */}
-      <button onClick={() => navigate('/')} style={{ marginBottom: '20px', padding: '5px 10px', cursor: 'pointer' }}>
-        🔙 חזרה לדף הבית
+      {/* כפתור חזרה ללוח הבקרה למעלה */}
+      <button onClick={() => navigate('/dashboard')} style={{ marginBottom: '20px', padding: '5px 10px', cursor: 'pointer' }}>
+        🔙 חזרה ללוח הבקרה
       </button>
+
 
       <h3>ניהול נרשמות - גישת מורה 🔓</h3>
       

@@ -61,7 +61,7 @@ function RegisterForm() {
       if (response.ok) {
         if (role === 'teacher') {
           alert('הרישום בוצע בהצלחה! מועברת למערכת הניהול... 🚀');
-          navigate('/search'); 
+          navigate('/dashboard'); 
         } else {
           alert('הרישום בוצע בהצלחה! 🎉');
           setFullName("");
