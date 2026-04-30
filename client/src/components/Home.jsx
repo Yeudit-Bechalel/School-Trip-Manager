@@ -6,10 +6,11 @@ function Home() {
   const [idInput, setIdInput] = useState('');
   const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
-  const handleLogin = async () => {
+ const handleLogin = async () => {
     try {
       setLoginError('');
-      const response = await fetch('http://127.0.0.1:5000/register', {
+      // שינינו כאן מ-register ל-login!
+      const response = await fetch('http://127.0.0.1:5000/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ idNumber: idInput })
@@ -19,11 +20,12 @@ function Home() {
         localStorage.setItem('idNumber', idInput);
         navigate('/dashboard');
       } else if (response.status === 404) {
-        
         setLoginError('תעודת הזהות לא מוכרת, נדרשת הרשמה.');
       } else if (response.status === 403) {
-        
         setLoginError('הכניסה היא רק למורות ולצוות.');
+      } else {
+        // התוספת שלנו כדי שהכפתור לא ישתוק אף פעם
+        setLoginError('שגיאה בפרטים. אנא בדקי שניסית להתחבר דרך כפתור "כניסה" ולא "הרשמה".');
       }
     } catch (error) {
       setLoginError('שגיאת תקשורת עם השרת');

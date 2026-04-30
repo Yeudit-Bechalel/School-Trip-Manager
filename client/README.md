@@ -1,16 +1,47 @@
-# React + Vite
+#  GirlsTrip - מערכת לניהול טיולים שנתיים
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+מערכת פול-סטאק (Full-Stack) שנועדה לעזור למורות ולצוות לנהל טיולים שנתיים בצורה קלה ויעילה. המערכת כוללת חיפוש תלמידות בזמן אמת, מפה אינטראקטיבית, ומערכת הרשמה והתחברות מאובטחת.
 
-Currently, two official plugins are available:
+## טכנולוגיות
+* **צד לקוח (Frontend):** React (Vite)
+* **צד שרת (Backend):** Node.js, Express.js
+* **מסד נתונים (Database):** MongoDB Atlas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## צילומי מסך
 
-## React Compiler
+### התחברות והרשמת צוות
+![התחברות](./client/images/login.png)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### חיפוש תלמידות חכם
+![חיפוש](./client/images/search.png)
 
-## Expanding the ESLint configuration
+### מפת מיקומים אינטראקטיבית
+![מפה](./client/images/map.png)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+##  התקנה והרצה
+
+1. **הורדת הפרויקט (Clone):**
+   ```bash
+   git clone https://github.com/Yeudit-Bechalel/School-Trip-Manager.git
+
+2. הגדרת צד שרת (Backend):
+# התקנת ספריות
+npm install
+
+# צרי קובץ .env בתיקייה הראשית והוסיפי את שורת ההתחברות שלך:
+# MONGO_URI=mongodb+srv://your_connection_string
+
+# הפעלת השרת
+node server.js
+
+3. הגדרת צד לקוח (Frontend):
+cd client
+npm install
+npm run dev
+
+
+##  פיצ'רים מרכזיים
+* **ניהול משתמשים:** כניסה מאובטחת ומותאמת למורות ולאנשי צוות בלבד.
+* **חיפוש תלמידות חכם:** מנוע חיפוש בזמן אמת (Live Search) לאיתור מהיר של כיתות ותלמידות.
+* **אינטגרציה עם מפות:** שילוב מפה להצגת מיקומים מדויקים.
+* **ממשק משתמש:** עיצוב רספונסיבי ונוח לשימוש מכל מכשיר.
