@@ -10,13 +10,13 @@
 ## צילומי מסך
 
 ### התחברות והרשמת צוות
-![התחברות](./client/images/login.png)
+![התחברות](./images/login.png)
 
 ### חיפוש תלמידות חכם
-![חיפוש](./client/images/search.png)
+![חיפוש](./images/search.png)
 
 ### מפת מיקומים אינטראקטיבית
-![מפה](./client/images/map.png)
+![מפה](./images/map.png)
 
 ##  התקנה והרצה
 
